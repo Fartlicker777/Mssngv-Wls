@@ -161,13 +161,13 @@ public class MssngvWls : MonoBehaviour {
         for (int i = 0; i < 5; i++) {
           switch (Shuffler[i]) {
             case 0:
-            AnswerButtons[i] = 4;
-            break;
-            case 1:
             AnswerButtons[i] = 3;
             break;
-            case 2:
+            case 1:
             AnswerButtons[i] = 1;
+            break;
+            case 2:
+            AnswerButtons[i] = 4;
             break;
             case 3:
             //AnswerButtons[i] = 4;
