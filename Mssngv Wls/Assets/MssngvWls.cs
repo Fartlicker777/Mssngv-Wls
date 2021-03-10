@@ -268,12 +268,16 @@ public class MssngvWls : MonoBehaviour {
     }
 
     #pragma warning disable 414
-    private readonly string TwitchHelpMessage = @"Use !{0} 1/2/3/4/5 to press the button from left to right.";
+    private readonly string TwitchHelpMessage = @"Use !{0} 1/2/3/4/5 to press the button from left to right. Use !{0} cycle to cycle the module.";
     #pragma warning restore 414
 
     IEnumerator ProcessTwitchCommand (string Command) {
       yield return null;
-      if (Command.Length != 1 || !"12345".Contains(Command)) {
+      Command.ToUpper().Trim();
+      if (Command == "CYCLE") {
+        CycleButton.OnInteract();
+      }
+      else if (Command.Length != 1 || !"12345".Contains(Command)) {
         yield return "sendtochaterror I don't understand!";
         yield break;
       }
