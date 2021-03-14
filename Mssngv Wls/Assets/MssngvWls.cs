@@ -1,10 +1,6 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using UnityEngine;
-using KModkit;
 
 public class MssngvWls : MonoBehaviour {
 
@@ -273,7 +269,7 @@ public class MssngvWls : MonoBehaviour {
 
     IEnumerator ProcessTwitchCommand (string Command) {
       yield return null;
-      Command.ToUpper().Trim();
+      Command = Command.ToUpper().Trim();
       if (Command == "CYCLE") {
         CycleButton.OnInteract();
       }
