@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using Rnd = UnityEngine.Random;
 
 public class MssngvWls : MonoBehaviour {
 
@@ -67,7 +68,7 @@ public class MssngvWls : MonoBehaviour {
       TargetModule = "";
       for (int i = 0; i < TempModuleName.Length; i++) {
          TargetModule += TempModuleName[i].ToString();
-         if (UnityEngine.Random.Range(0, 100) <= 33) {
+         if (Rnd.Range(0, 100) <= 33) {
             TargetModule += " ";
          }
       }
@@ -76,7 +77,7 @@ public class MssngvWls : MonoBehaviour {
    }
 
    void Start () {
-      ForbiddenNumber = UnityEngine.Random.Range(0, 5);
+      ForbiddenNumber = Rnd.Range(0, 5);
       Debug.LogFormat("[Mssngv Wls #{0}] The missing vowel is {1}.", moduleId, "AEIOU"[ForbiddenNumber]);
       Shuffler.Shuffle();
       for (int i = 0; i < 5; i++) {
@@ -239,31 +240,9 @@ public class MssngvWls : MonoBehaviour {
 
    string WordGenerator () {
       string ChosenWords = "";
-      if (ForbiddenNumber == 0) {
-         do {
-            ChosenWords = ModuleNames.NoAs[UnityEngine.Random.Range(0, ModuleNames.NoAs.Length)];
-         } while (!(ChosenWords.Any(x => "ABCDEFGHIJKLMNOPQRSTUVWXYZ".Contains(x))));
-      }
-      else if (ForbiddenNumber == 1) {
-         do {
-            ChosenWords = ModuleNames.NoEs[UnityEngine.Random.Range(0, ModuleNames.NoEs.Length)];
-         } while (!(ChosenWords.Any(x => "ABCDEFGHIJKLMNOPQRSTUVWXYZ".Contains(x))));
-      }
-      else if (ForbiddenNumber == 2) {
-         do {
-            ChosenWords = ModuleNames.NoIs[UnityEngine.Random.Range(0, ModuleNames.NoIs.Length)];
-         } while (!(ChosenWords.Any(x => "ABCDEFGHIJKLMNOPQRSTUVWXYZ".Contains(x))));
-      }
-      else if (ForbiddenNumber == 3) {
-         do {
-            ChosenWords = ModuleNames.NoOs[UnityEngine.Random.Range(0, ModuleNames.NoOs.Length)];
-         } while (!(ChosenWords.Any(x => "ABCDEFGHIJKLMNOPQRSTUVWXYZ".Contains(x))));
-      }
-      else if (ForbiddenNumber == 4) {
-         do {
-            ChosenWords = ModuleNames.NoUs[UnityEngine.Random.Range(0, ModuleNames.NoUs.Length)];
-         } while (!(ChosenWords.Any(x => "ABCDEFGHIJKLMNOPQRSTUVWXYZ".Contains(x))));
-      }
+      do {
+         ChosenWords = ModuleNames.Module_Names[Rnd.Range(0, ModuleNames.Module_Names.Length)];
+      } while (!ChosenWords.ToUpperInvariant().Any(x => "ABCDEFGHIJKLMNOPQRSTUVWXYZ".Contains(x)) && !ChosenWords.ToUpperInvariant().Any(x => "AEIOU"[ForbiddenNumber].ToString().Contains(x)));
       Debug.LogFormat("[Mssngv Wls #{0}] The current module is {1}.", moduleId, ChosenWords);
       return ChosenWords;
    }
