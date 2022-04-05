@@ -8,6 +8,7 @@ public class MssngvWls : MonoBehaviour {
    public KMBombInfo Bomb;
    public KMAudio Audio;
    public TextMesh Text;
+   public TextMesh TitText;
 
    public KMSelectable[] Vowels;
    public KMSelectable CycleButton;
@@ -15,8 +16,11 @@ public class MssngvWls : MonoBehaviour {
    public SpriteRenderer[] Hieroglyphics;
    public Sprite[] Glyphs;
 
+   string LastWord = "";
+
    int[] Shuffler = { 0, 1, 2, 3, 4, 5 };
    int[] AnswerButtons = new int[5];
+   int Category;
    int ForbiddenNumber;
 
    static int moduleIdCounter = 1;
@@ -77,7 +81,10 @@ public class MssngvWls : MonoBehaviour {
    }
 
    void Start () {
+      Category = Rnd.Range(0, WordBank.Categories.Length);
       ForbiddenNumber = Rnd.Range(0, 5);
+      TitText.text = WordBank.Titles[Category];
+      Debug.LogFormat("[Mssngv Wls #{0}] The category is {1}.", moduleId, WordBank.Titles[Category]);
       Debug.LogFormat("[Mssngv Wls #{0}] The missing vowel is {1}.", moduleId, "AEIOU"[ForbiddenNumber]);
       Shuffler.Shuffle();
       for (int i = 0; i < 5; i++) {
@@ -241,9 +248,10 @@ public class MssngvWls : MonoBehaviour {
    string WordGenerator () {
       string ChosenWords = "";
       do {
-         ChosenWords = ModuleNames.Module_Names[Rnd.Range(0, ModuleNames.Module_Names.Length)];
-      } while (!ChosenWords.ToUpperInvariant().Any(x => "ABCDEFGHIJKLMNOPQRSTUVWXYZ".Contains(x)) && !ChosenWords.ToUpperInvariant().Any(x => "AEIOU"[ForbiddenNumber].ToString().Contains(x)));
-      Debug.LogFormat("[Mssngv Wls #{0}] The current module is {1}.", moduleId, ChosenWords);
+         ChosenWords = WordBank.Categories[Category][Rnd.Range(0, WordBank.Categories[Category].Length)];
+      } while (!ChosenWords.ToUpperInvariant().Any(x => "ABCDEFGHIJKLMNOPQRSTUVWXYZ".Contains(x)) || ChosenWords.ToUpperInvariant().Any(x => "AEIOU"[ForbiddenNumber].ToString().Contains(x)) || LastWord == ChosenWords);
+      LastWord = ChosenWords;
+      Debug.LogFormat("[Mssngv Wls #{0}] The current phrase is {1}.", moduleId, ChosenWords);
       return ChosenWords;
    }
 

@@ -17,8 +17,8 @@ MonoBehaviour:
   description: 'One thousand modules and only one connection.
 
 
-    Find the missing vowel on all modules shown, and submit the correct Hieroglyph
-    based on what''s missing.
+    Find the missing vowel on all items shown, and submit the correct Hieroglyph based
+    on what''s missing.
 
 
     Manual can be found at ktane.timwi.de or in the manuals folder of your game.
