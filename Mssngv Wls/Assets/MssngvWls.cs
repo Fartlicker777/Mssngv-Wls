@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Rnd = UnityEngine.Random;
@@ -23,11 +24,19 @@ public class MssngvWls : MonoBehaviour {
    int Category;
    int ForbiddenNumber;
 
+   MssngvWlsSettings Settings = new MssngvWlsSettings();
+
    static int moduleIdCounter = 1;
    int moduleId;
    private bool moduleSolved;
 
    void Awake () {
+      ModConfig<MssngvWlsSettings> modConfig = new ModConfig<MssngvWlsSettings>("MssngvWlsSettings");
+      //Read from the settings file, or create one if one doesn't exist
+      Settings = modConfig.Settings;
+      //Update the settings file in case there was an error during read
+      modConfig.Settings = Settings;
+
       moduleId = moduleIdCounter++;
 
       foreach (KMSelectable Vowel in Vowels) {
@@ -81,7 +90,8 @@ public class MssngvWls : MonoBehaviour {
    }
 
    void Start () {
-      Category = Rnd.Range(0, WordBank.Categories.Length);
+      if (Settings.enableExtraCategories)
+        Category = Rnd.Range(0, WordBank.Categories.Length);
       ForbiddenNumber = Rnd.Range(0, 5);
       TitText.text = WordBank.Titles[Category];
       Debug.LogFormat("[Mssngv Wls #{0}] The category is {1}.", moduleId, WordBank.Titles[Category]);
@@ -282,4 +292,25 @@ public class MssngvWls : MonoBehaviour {
          }
       }
    }
+
+   class MssngvWlsSettings
+   {
+      public bool enableExtraCategories = false;
+   }
+
+   static Dictionary<string, object>[] TweaksEditorSettings = new Dictionary<string, object>[]
+   {
+      new Dictionary<string, object>
+      {
+         { "Filename", "MssngvWlsSettings.json" },
+         { "Name", "Mssngv Wls Settings" },
+         { "Listing", new List<Dictionary<string, object>>{
+            new Dictionary<string, object>
+            {
+               { "Key", "enableExtraCategories" },
+               { "Text", "Enables the module to generate categories other than just \"Modules\"" }
+            }
+         } }
+      }
+   };
 }
