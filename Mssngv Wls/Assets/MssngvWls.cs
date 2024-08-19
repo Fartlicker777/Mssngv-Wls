@@ -31,11 +31,14 @@ public class MssngvWls : MonoBehaviour {
    private bool moduleSolved;
 
    void Awake () {
-      ModConfig<MssngvWlsSettings> modConfig = new ModConfig<MssngvWlsSettings>("MssngvWlsSettings");
-      //Read from the settings file, or create one if one doesn't exist
-      Settings = modConfig.Settings;
-      //Update the settings file in case there was an error during read
-      modConfig.Settings = Settings;
+      if (!Application.isEditor) {
+         ModConfig<MssngvWlsSettings> modConfig = new ModConfig<MssngvWlsSettings>("MssngvWlsSettings");
+         //Read from the settings file, or create one if one doesn't exist
+         Settings = modConfig.Settings;
+         //Update the settings file in case there was an error during read
+         modConfig.Settings = Settings;
+      }
+      
 
       moduleId = moduleIdCounter++;
 
@@ -97,13 +100,15 @@ public class MssngvWls : MonoBehaviour {
       Debug.LogFormat("[Mssngv Wls #{0}] The category is {1}.", moduleId, WordBank.Titles[Category]);
       Debug.LogFormat("[Mssngv Wls #{0}] The missing vowel is {1}.", moduleId, "AEIOU"[ForbiddenNumber]);
       Shuffler.Shuffle();
+
       for (int i = 0; i < 5; i++) {
          Hieroglyphics[i].GetComponent<SpriteRenderer>().sprite = Glyphs[Shuffler[i]];
       }
-      switch (Shuffler[5]) {
-         case 0:
+
+      switch (Shuffler[5]) { //Switch case for the missing hieroglyphic
+         case 0: //Twisted Flax
             for (int i = 0; i < 5; i++) {
-               switch (Shuffler[i]) {
+               switch (Shuffler[i]) {  //A=0 E=1 I=2 O=3 U=4
                   case 0:
                      //AnswerButtons[i]
                      break;
@@ -111,22 +116,22 @@ public class MssngvWls : MonoBehaviour {
                      AnswerButtons[i] = 4;
                      break;
                   case 2:
-                     AnswerButtons[i] = 0;
-                     break;
-                  case 3:
-                     AnswerButtons[i] = 1;
-                     break;
-                  case 4:
                      AnswerButtons[i] = 3;
                      break;
-                  case 5:
+                  case 3:
                      AnswerButtons[i] = 2;
+                     break;
+                  case 4:
+                     AnswerButtons[i] = 1;
+                     break;
+                  case 5:
+                     AnswerButtons[i] = 0;
                      break;
                }
             }
             Debug.LogFormat("[Mssngv Wls #{0}] The missing hieroglyphic is Twisted Flax. Buttons are arranged {1}{2}{3}{4}{5}.", moduleId, "AEIOU"[AnswerButtons[0]], "AEIOU"[AnswerButtons[1]], "AEIOU"[AnswerButtons[2]], "AEIOU"[AnswerButtons[3]], "AEIOU"[AnswerButtons[4]]);
             break;
-         case 1:
+         case 1:  //Eye
             for (int i = 0; i < 5; i++) {
                switch (Shuffler[i]) {
                   case 0:
@@ -136,22 +141,22 @@ public class MssngvWls : MonoBehaviour {
                      //AnswerButtons[i] = 0;
                      break;
                   case 2:
-                     AnswerButtons[i] = 2;
+                     AnswerButtons[i] = 4;
                      break;
                   case 3:
                      AnswerButtons[i] = 3;
                      break;
                   case 4:
-                     AnswerButtons[i] = 1;
+                     AnswerButtons[i] = 2;
                      break;
                   case 5:
-                     AnswerButtons[i] = 4;
+                     AnswerButtons[i] = 1;
                      break;
                }
             }
             Debug.LogFormat("[Mssngv Wls #{0}] The missing hieroglyphic is the Eye of Horus. Buttons are arranged {1}{2}{3}{4}{5}.", moduleId, "AEIOU"[AnswerButtons[0]], "AEIOU"[AnswerButtons[1]], "AEIOU"[AnswerButtons[2]], "AEIOU"[AnswerButtons[3]], "AEIOU"[AnswerButtons[4]]);
             break;
-         case 2:
+         case 2:  //2 reeds
             for (int i = 0; i < 5; i++) {
                switch (Shuffler[i]) {
                   case 0:
@@ -164,54 +169,54 @@ public class MssngvWls : MonoBehaviour {
                      //AnswerButtons[i] = 0;
                      break;
                   case 3:
-                     AnswerButtons[i] = 2;
-                     break;
-                  case 4:
                      AnswerButtons[i] = 4;
                      break;
-                  case 5:
+                  case 4:
                      AnswerButtons[i] = 3;
+                     break;
+                  case 5:
+                     AnswerButtons[i] = 2;
                      break;
                }
             }
             Debug.LogFormat("[Mssngv Wls #{0}] The missing hieroglyphic are the Two Reeds. Buttons are arranged {1}{2}{3}{4}{5}.", moduleId, "AEIOU"[AnswerButtons[0]], "AEIOU"[AnswerButtons[1]], "AEIOU"[AnswerButtons[2]], "AEIOU"[AnswerButtons[3]], "AEIOU"[AnswerButtons[4]]);
             break;
-         case 3:
+         case 3:  //Lion
             for (int i = 0; i < 5; i++) {
                switch (Shuffler[i]) {
                   case 0:
-                     AnswerButtons[i] = 3;
+                     AnswerButtons[i] = 2;
                      break;
                   case 1:
                      AnswerButtons[i] = 1;
                      break;
                   case 2:
-                     AnswerButtons[i] = 4;
+                     AnswerButtons[i] = 0;
                      break;
                   case 3:
                      //AnswerButtons[i] = 4;
                      break;
                   case 4:
-                     AnswerButtons[i] = 2;
+                     AnswerButtons[i] = 4;
                      break;
                   case 5:
-                     AnswerButtons[i] = 0;
+                     AnswerButtons[i] = 3;
                      break;
                }
             }
             Debug.LogFormat("[Mssngv Wls #{0}] The missing hieroglyphic is the Lion. Buttons are arranged {1}{2}{3}{4}{5}.", moduleId, "AEIOU"[AnswerButtons[0]], "AEIOU"[AnswerButtons[1]], "AEIOU"[AnswerButtons[2]], "AEIOU"[AnswerButtons[3]], "AEIOU"[AnswerButtons[4]]);
             break;
-         case 4:
+         case 4:  //Viper
             for (int i = 0; i < 5; i++) {
                switch (Shuffler[i]) {
                   case 0:
-                     AnswerButtons[i] = 4;
+                     AnswerButtons[i] = 3;
                      break;
                   case 1:
                      AnswerButtons[i] = 2;
                      break;
                   case 2:
-                     AnswerButtons[i] = 3;
+                     AnswerButtons[i] = 1;
                      break;
                   case 3:
                      AnswerButtons[i] = 0;
@@ -220,26 +225,26 @@ public class MssngvWls : MonoBehaviour {
                      //AnswerButtons[i] = 2;
                      break;
                   case 5:
-                     AnswerButtons[i] = 1;
+                     AnswerButtons[i] = 4;
                      break;
                }
             }
             Debug.LogFormat("[Mssngv Wls #{0}] The missing hieroglyphic is the Viper. Buttons are arranged {1}{2}{3}{4}{5}.", moduleId, "AEIOU"[AnswerButtons[0]], "AEIOU"[AnswerButtons[1]], "AEIOU"[AnswerButtons[2]], "AEIOU"[AnswerButtons[3]], "AEIOU"[AnswerButtons[4]]);
             break;
-         case 5:
+         case 5:  //Water
             for (int i = 0; i < 5; i++) {
                switch (Shuffler[i]) {
                   case 0:
-                     AnswerButtons[i] = 2;
+                     AnswerButtons[i] = 4;
                      break;
                   case 1:
                      AnswerButtons[i] = 3;
                      break;
                   case 2:
-                     AnswerButtons[i] = 1;
+                     AnswerButtons[i] = 2;
                      break;
                   case 3:
-                     AnswerButtons[i] = 4;
+                     AnswerButtons[i] = 1;
                      break;
                   case 4:
                      AnswerButtons[i] = 0;
